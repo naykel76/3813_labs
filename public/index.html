@@ -14,6 +14,9 @@
         <div class="flex py-3">
             <img src="/assets/favicon.svg" alt="Nathan Watts Favicon" class="mx-auto h-10">
         </div>
+
+        <p class="message txt-red hidden tac">User credentials do not match</p>
+
         <form class="bx" id="loginForm" action="/login" method="post">
             <div class="frm-row">
                 <label for="username">Username</label>
@@ -28,39 +31,50 @@
             </div>
         </form>
     </div>
+    <script>
+
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+
+            event.preventDefault();
+
+            // When the form is submitted, the browser triggers a submit event,
+            // and this object contains information about the event, such as the
+            // target element that triggered the event (in this case, the form
+            // that was submitted).
+
+            // The target property of the Event object represents the element that
+            // triggered the event. In this context, event.target refers to the
+            // HTML form element that was submitted.
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: form.method,
+                body: JSON.stringify({
+                    username: formData.get('username'),
+                    password: formData.get('password')
+                }),
+                headers: { "Content-Type": "application/json" },
+            })
+                // call the json method on the response
+                .then(res => res.json())
+                // get the data from the json method
+                .then(data => {
+                    if (!data.success) {
+                        document.querySelector('form').classList.add('danger');
+                        document.querySelector('.message').classList.remove('hidden');
+                    } else {
+                        // Redirect to account page after a successful login
+                        window.location.href = '/account';
+                    }
+                })
+                // Handle any errors that occur during the fetch call
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+        });
+    </script>
+
 </body>
-
-<script>
-
-    document.getElementById('loginForm').addEventListener('submit', function (event) {
-
-        event.preventDefault();
-
-        // When the form is submitted, the browser triggers a submit event,
-        // and this object contains information about the event, such as the
-        // target element that triggered the event (in this case, the form
-        // that was submitted).
-
-        // The target property of the Event object represents the element that
-        // triggered the event. In this context, event.target refers to the
-        // HTML form element that was submitted.
-        const form = event.target;
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: form.method,
-            body: JSON.stringify({
-                username: formData.get('username'),
-                password: formData.get('password')
-            }),
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(res => res.json()) // call the json method on the response
-            .then(data => console.log(data)) // get the data from the json method
-
-    });
-
-
-</script>
 
 </html>

@@ -4,12 +4,15 @@
   "description": "3813ICT workshops and course work",
   "main": "index.js",
   "scripts": {
-    "serve": "node server"
+    "start": "nodemon server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "prompt": "^1.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

@@ -42,14 +42,11 @@ app.post('/login', function (req, res) {
 
     const { username, password } = req.body;
 
-    if (username === 'billy27' && password === 'password') {
-        const userInfo = {
-            username: username,
-            email: 'heyhey@gmail.com',
-        };
-        res.json(userInfo);
+    if (username === 'billy27' && password === 'abc123') {
+        res.status(200).json({ success: true, message: 'Login successful!' });
     } else {
-        res.status(401).json({ error: 'Invalid credentials' });
+        res.status(401).json({ success: false, message: 'Invalid credentials. Please try again.' });
     }
-
 });
+
+
